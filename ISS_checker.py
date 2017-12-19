@@ -14,9 +14,10 @@ with urllib.request.urlopen(url) as response:
 
 
 for event in reversed(sighting_list):
-    title = event.find("title").text
-    event_time = datetime.strptime(title, '%Y-%m-%d ISS Sighting')
+    title = event.find("title").text.split()
+    event_time = datetime.strptime(title[0], '%Y-%m-%d')
     if today_beginning <= event_time:
-        description = "\n".join([line.strip() for line in event.find("description").text.split("<br/>")])
+        description = title[1] +" "+title[2]+"\n"
+        description += "\n".join([line.strip() for line in event.find("description").text.split("<br/>")])
         print(description)
 input()
